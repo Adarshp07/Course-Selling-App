@@ -1,0 +1,24 @@
+{
+  "name": "course-selling-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adarshp07/Course-Selling-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adarshp07/Course-Selling-App/issues"
+  },
+  "homepage": "https://github.com/Adarshp07/Course-Selling-App#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node": "^20.5.0"
+  }
+}
