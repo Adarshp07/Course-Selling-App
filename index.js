@@ -3,26 +3,49 @@
 const express = require('express')
 const app = express()
 
-app.use(express.json);
+app.use(express.json());
 
-let ADMIN = []
+let ADMINS = []
 let USERS = []
 let COURSES = []
+
+//functions for authentication
+
+const adminAuthentication = (req, res, next) => {
+
+    const { username, password } = req.header;
+    const admin = ADMIN.find(a => a.username === username && a.password === password);
+    if (admin) {
+        next();
+    }
+    else {
+        res.status(403).json({ message: 'Admin Authentication Failed' });
+    }
+
+};
+
+
+
 
 
 //Setting up admin routes
 
 app.post('/admin/signup', (req, res) => {
-    //route for sign up
-})
+    const admin = req.body;
+    const existingAdmin = ADMINS.find(a => a.username === admin.username);
+    if (existingAdmin) {
+        res.status(403).json({ message: 'Admin already exists' });
+    } else {
+        ADMINS.push(admin);
+        res.json({ message: 'Admin created successfully' });
+    }
+});
 
 
 
-app.post('/admin/login', (req, res) => {
-    //route for create courses
-})
-
-
+app.post('/admin/login', adminAuthentication, (req, res) => {
+    res.json({ message: 'Logged in successfully' });
+});
 
 app.post('/admin/courses', (req, res) => {
     //route for create courses
@@ -38,12 +61,12 @@ app.put('/admin/courses/:courseid', (req, res) => {
 
 
 app.get('/admin/courses', (req, res) => {
-    res.send()
+
 })
 
 
 
-app.post('/admin/signup', (req, res) => {
+app.post('/users/signup', (req, res) => {
     //route for sign up
 })
 
