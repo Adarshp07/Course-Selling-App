@@ -11,17 +11,18 @@ let COURSES = []
 
 //functions for authentication
 
-const adminAuthentication = (req, res, next) => {
 
-    const { username, password } = req.header;
-    const admin = ADMIN.find(a => a.username === username && a.password === password);
+const adminAuthentication = (req, res, next) => {
+    const { username, password } = req.headers;
+    console.log("control reaches here")
+    console.log(username)
+    console.log(password);
+    const admin = ADMINS.find(a => a.username === username && a.password === password);
     if (admin) {
         next();
+    } else {
+        res.status(403).json({ message: 'Admin authentication failed' });
     }
-    else {
-        res.status(403).json({ message: 'Admin Authentication Failed' });
-    }
-
 };
 
 
@@ -44,12 +45,18 @@ app.post('/admin/signup', (req, res) => {
 
 
 app.post('/admin/login', adminAuthentication, (req, res) => {
-    res.json({ message: 'Logged in successfully' });
+    res.json({ message: "Admin login successfully" });
 });
 
-app.post('/admin/courses', (req, res) => {
+app.post('/admin/courses', adminAuthentication, (req, res) => {
     //route for create courses
-})
+    const course = req.body;
+
+    course.id = Date();
+    COURSES.push(course);
+    res.json({ message: "Course created successfully!", courseId: course.id });
+
+});
 
 
 
